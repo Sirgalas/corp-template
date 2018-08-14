@@ -34,6 +34,9 @@
                     ['label' => 'Пользователи', 'url' => ['user'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Программы', 'url' => ['program'], 'visible' => !Yii::$app->user->isGuest],
                     ['label' => 'Учителя', 'url' => ['teacher'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Информационные страницы', 'url' => ['info-page'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Галерея', 'url' => ['gallery'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Дополнительные настройки', 'url' => ['config'], 'visible' => !Yii::$app->user->isGuest],
                 ],
             ]
         ) ?>

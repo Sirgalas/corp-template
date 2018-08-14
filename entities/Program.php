@@ -16,7 +16,7 @@ use Yii;
  * @property int $image_id
  * @property int $author_id
  * @property int $last_redactor_id
- *
+ * @property string $icon
  * @property User $author
  * @property Image $image
  * @property User $lastRedactor
@@ -40,10 +40,10 @@ class Program extends \yii\db\ActiveRecord
             [['description'], 'string'],
             [['create_at', 'update_at'], 'safe'],
             [['image_id', 'author_id', 'last_redactor_id'], 'integer'],
-            [['title', 'slug'], 'string', 'max' => 255],
-            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['author_id' => 'id']],
-            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::className(), 'targetAttribute' => ['image_id' => 'id']],
-            [['last_redactor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['last_redactor_id' => 'id']],
+            [['title', 'slug','icon'], 'string', 'max' => 255],
+            [['author_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['author_id' => 'id']],
+            [['image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Image::class, 'targetAttribute' => ['image_id' => 'id']],
+            [['last_redactor_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['last_redactor_id' => 'id']],
         ];
     }
 
@@ -62,6 +62,7 @@ class Program extends \yii\db\ActiveRecord
             'image_id' => 'Image ID',
             'author_id' => 'Author ID',
             'last_redactor_id' => 'Last Redactor ID',
+            'icon'=>'Icon'
         ];
     }
 
@@ -70,7 +71,7 @@ class Program extends \yii\db\ActiveRecord
      */
     public function getAuthor()
     {
-        return $this->hasOne(User::className(), ['id' => 'author_id']);
+        return $this->hasOne(User::class, ['id' => 'author_id']);
     }
 
     /**
@@ -78,7 +79,7 @@ class Program extends \yii\db\ActiveRecord
      */
     public function getImage()
     {
-        return $this->hasOne(Image::className(), ['id' => 'image_id']);
+        return $this->hasOne(Image::class, ['id' => 'image_id']);
     }
 
     /**
@@ -86,6 +87,6 @@ class Program extends \yii\db\ActiveRecord
      */
     public function getLastRedactor()
     {
-        return $this->hasOne(User::className(), ['id' => 'last_redactor_id']);
+        return $this->hasOne(User::class, ['id' => 'last_redactor_id']);
     }
 }
