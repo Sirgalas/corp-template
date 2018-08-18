@@ -22,7 +22,7 @@ class CreateForm  extends Model
     public $description;
     public $name;
     public $last_name;
-    public $image;
+    public $file;
 
     public function rules()
     {

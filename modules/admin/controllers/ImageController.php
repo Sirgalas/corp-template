@@ -2,18 +2,28 @@
 
 namespace app\modules\admin\controllers;
 
+use app\modules\admin\services\manage\ImageService;
 use Yii;
 use app\entities\Image;
 use app\search\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\admin\forms\image\ImageCreateForm;
 
 /**
  * ImageController implements the CRUD actions for Image model.
  */
 class ImageController extends Controller
 {
+    public $service;
+
+    public function __construct(string $id, $module, ImageService $service, array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service=$service;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -107,6 +117,20 @@ class ImageController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionUpload(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $form=new ImageCreateForm();
+        if($form->load(Yii::$app->request->post())&&$form->validate()){
+           try {
+               $id=$this->service->save($form);
+               return ['id'=>$id];
+            }catch (\DomainException $e){
+               Yii::error($e);
+               return['error'=>'Картинка не загрузилась'];
+           }
+        }
     }
 
     /**

@@ -32,10 +32,22 @@ class Teachers extends \yii\db\ActiveRecord
     const DISMISSED=0;
     const ACTIVE=1;
 
+    const MEN = 0;
+    const WOMEN=1;
+
+    const FOLDER='teacher';
+
     static $nameStatus=[
         self::ACTIVE    =>  'Работает',
         self::DISMISSED =>  'Уволен'
     ];
+
+    static $nameSex=[
+        self::MEN=>'Мужчина',
+        self::WOMEN=>'Женщина'
+    ];
+
+
 
     public static function create(CreateForm $form)
     {
@@ -148,8 +160,12 @@ class Teachers extends \yii\db\ActiveRecord
         return $this->hasOne(User::class, ['id' => 'last_redactor_id']);
     }
 
-    public function nameStatus()
+    public function getNameStatus()
     {
         return self::$nameStatus[$this->status];
+    }
+
+    public function getNameSex(){
+        return self::$nameSex[$this->sex];
     }
 }

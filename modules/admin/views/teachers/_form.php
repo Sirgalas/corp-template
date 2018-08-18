@@ -2,40 +2,46 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use app\entities\Teachers;
+use kartik\file\FileInput;
+use dosamigos\ckeditor\CKEditor;
 /* @var $this yii\web\View */
-/* @var $model app\entities\Teachers */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $model app\modules\admin\forms\teachers\CreateForm */
+/* @var $form yii\widgets\ActiveForm
+ * @var $imageRepository app\repositories\ImageRepository
+ */
+
 ?>
+<div class="box box-primary">
+    <div class="box-body">
+        <div class="teachers-form">
+            <?php $form = ActiveForm::begin(); ?>
 
-<div class="teachers-form">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            
+            <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+            <?= $form->field($model, 'sex')->dropDownList(Teachers::$nameSex) ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'description')->widget(CKEditor::class, [
+                'options' => ['rows' => 6],
+                'preset' => 'full',
+                'clientOptions' => [
+                    'filebrowserImageUploadUrl' => '/files/upload'
+                ]
+            ]) ?>
 
-    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'status')->dropDownList(Teachers::$nameStatus) ?>
 
-    <?= $form->field($model, 'sex')->textInput() ?>
+            <?= $form->field($model, 'file')->widget(FileInput::class,$imageRepository->imageSeting(Teachers::FOLDER,$image_id)); ?>
 
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'create_at')->textInput() ?>
+            <div class="form-group">
+                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            </div>
 
-    <?= $form->field($model, 'update_at')->textInput() ?>
+            <?php ActiveForm::end(); ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'image_id')->textInput() ?>
-
-    <?= $form->field($model, 'author_id')->textInput() ?>
-
-    <?= $form->field($model, 'last_redactor_id')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>

@@ -3,6 +3,7 @@
 namespace app\modules\admin\controllers;
 
 use app\modules\admin\services\manage\ImageService;
+use app\repositories\ImageRepository;
 use Yii;
 use app\entities\Teachers;
 use app\search\TeachersSearch;
@@ -80,6 +81,7 @@ class TeachersController extends Controller
     {
         $form=new CreateForm();
         $imageForm=new ImageCreateForm();
+        $imageRepository=new ImageRepository();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             $transaction = Yii::$app->db->beginTransaction();
             try{
@@ -99,6 +101,8 @@ class TeachersController extends Controller
 
         return $this->render('create', [
             'model' => $form,
+            'imageRepository'=>$imageRepository,
+            'image_id'=>null
         ]);
     }
 

@@ -14,6 +14,7 @@ use app\entities\User;
 class ImageCreateForm extends Model
 {
     public $file;
+    public $folder;
     /**
      * {@inheritdoc}
      */
@@ -21,6 +22,7 @@ class ImageCreateForm extends Model
     {
         return [
             ['file','file', 'extensions' => 'png, jpg'],
+            ['folder','string']
         ];
     }
 

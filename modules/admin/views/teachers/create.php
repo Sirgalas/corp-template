@@ -1,8 +1,5 @@
 <?php
 
-use yii\helpers\Html;
-
-
 /* @var $this yii\web\View */
 /* @var $model app\entities\Teachers */
 
@@ -12,10 +9,10 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teachers-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?= $this->render('_form', [
         'model' => $model,
+        'imageRepository'=>$imageRepository,
+        'image_id'=>$image_id
     ]) ?>
 
 </div>

@@ -1,7 +1,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use app\entities\Teachers;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\search\TeachersSearch */
@@ -12,32 +13,45 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teachers-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <p>
         <?= Html::a('Create Teachers', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="box">
+        <div class="box-body">
+            <?= GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
 
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'name',
-            'slug',
-            'sex',
-            'description:ntext',
-            //'create_at',
-            //'update_at',
-            //'status',
-            //'image_id',
-            //'author_id',
-            //'last_redactor_id',
-
-            ['class' => 'yii\grid\ActionColumn'],
-        ],
-    ]); ?>
+                    'name',
+                    'slug',
+                    [
+                        'attribute'=>'sex',
+                        'value'=> function($model){
+                            return $model->nameSex;
+                        },
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => Teachers::$nameSex
+                    ],
+                    [
+                        'attribute'=>'status',
+                        'value'=>function($model){
+                            return $model->nameStatus;
+                        },
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filter' => Teachers::$nameStatus
+                    ],
+                    [
+                        'attribute'=>'image_id',
+                        'format'=>'raw',
+                        'value'=>function($model){
+                            return $model->image->getUrl(Teachers::FOLDER);
+                        }
+                    ],
+                    ['class' => 'yii\grid\ActionColumn'],
+                ],
+            ]); ?>
+        </div>
+    </div>
 </div>
