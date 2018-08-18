@@ -25,10 +25,10 @@ class ImageRepository
             $initialPreviewConfig = [];
             if($id){
                 $model=$this->get($id);
-                $initialPreview[] = '/'.$model->name;
+                $initialPreview[] = $model->getUrl($folder).DIRECTORY_SEPARATOR.$model->name;
                 $initialPreviewConfig[] = [
                     'caption' => $model->name,
-                    'size' => filesize($model->getUrl($folder)),
+                    'size' => filesize($model->getPath($folder).DIRECTORY_SEPARATOR.$model->name),
                     'key' => $model->id,
                 ];
             }
@@ -36,6 +36,7 @@ class ImageRepository
                 'options' => [
                     'accept' => 'image/*',
                 ],
+                'language' => 'ru',
                 'pluginOptions' => [
                     'uploadUrl' => Url::to(['/admin/image/upload']),
                     'uploadExtraData' => [

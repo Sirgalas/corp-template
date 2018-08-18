@@ -8,11 +8,12 @@ use yii\base\Model;
  * Class CreateForm
  * @package app\modules\admin\forms\teachers
  * @property integer $sex
- * @property integer $status;
- * @property string $description;
- * @property string $name;
- * @property string $last_name;
- * @property string $image;
+ * @property integer $status
+ * @property string $description
+ * @property string $name
+ * @property string $last_name
+ * @property string $image
+ * @property integer $image_id
  */
 
 class CreateForm  extends Model
@@ -28,6 +29,7 @@ class CreateForm  extends Model
     {
 
         return [
+            ['image_id','required','message'=>'Загрузите картинку'],
             [['sex', 'status','image_id'], 'integer'],
             [['description'], 'string'],
             [['name', 'last_name'], 'string', 'max' => 255],

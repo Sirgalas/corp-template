@@ -13,7 +13,7 @@ use yii\base\Model;
  * @property string $description;
  * @property string $name;
  * @property string $last_name;
- * @property string $image;
+ * @property string $image_id;
  */
 
 class EditForm  extends Model
@@ -23,7 +23,7 @@ class EditForm  extends Model
     public $description;
     public $name;
     public $last_name;
-    public $image;
+    public $image_id;
 
     public function __construct(Teachers $teachers, $config = [])
     {
@@ -32,7 +32,7 @@ class EditForm  extends Model
         $this->description=$teachers->description;
         $this->name=$teachers->name;
         $this->last_name=$teachers->last_name;
-        $this->image=$teachers->image;
+        $this->image_id=$teachers->image_id;
         parent::__construct($config);
     }
 
@@ -40,11 +40,10 @@ class EditForm  extends Model
     {
 
         return [
-            [['sex', 'status'], 'integer'],
+            [['image_id'],'required','message'=>'Загрузите картинку'],
+            [['sex', 'status','image_id'], 'integer'],
             [['description'], 'string'],
             [['name', 'last_name'], 'string', 'max' => 255],
-            ['image','file', 'extensions' => 'png, jpg'],
-
         ];
     }
     public function attributeLabels()

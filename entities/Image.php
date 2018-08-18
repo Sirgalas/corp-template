@@ -112,7 +112,7 @@ class Image extends \yii\db\ActiveRecord
 
     public function getUrl($folder):string
     {
-        return Yii::getAlias('@web').self::PATH.DIRECTORY_SEPARATOR.$folder;
+        return Yii::getAlias('@web').DIRECTORY_SEPARATOR.self::PATH.DIRECTORY_SEPARATOR.$folder;
     }
 
     public static function getClassImage(){

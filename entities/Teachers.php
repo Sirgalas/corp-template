@@ -6,6 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
 use app\modules\admin\forms\teachers\CreateForm;
+use app\modules\admin\forms\teachers\EditForm;
 
 /**
  * This is the model class for table "teachers".
@@ -49,7 +50,7 @@ class Teachers extends \yii\db\ActiveRecord
 
 
 
-    public static function create(CreateForm $form)
+    public static function create(CreateForm $form):Teachers
     {
         $teacher=new static();
         $teacher->sex=$form->sex;
@@ -57,8 +58,19 @@ class Teachers extends \yii\db\ActiveRecord
         $teacher->name=$form->name;
         $teacher->last_name=$form->last_name;
         $teacher->description=$form->description;
-
+        $teacher->image_id=$form->image_id;
+        return $teacher;
     }
+
+    public function edit(EditForm $form){
+        $this->sex=$form->sex;
+        $this->status=$form->status;
+        $this->name=$form->name;
+        $this->last_name=$form->last_name;
+        $this->description=$form->description;
+        $this->image_id=$form->image_id;
+    }
+
     /**
      * {@inheritdoc}
      */

@@ -8,7 +8,7 @@ use app\entities\Teachers;
 /* @var $searchModel app\search\TeachersSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Teachers';
+$this->title = 'Учителя';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teachers-index">
@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute'=>'image_id',
                         'format'=>'raw',
                         'value'=>function($model){
-                            return $model->image->getUrl(Teachers::FOLDER);
+                            return Html::img($model->image->getUrl(Teachers::FOLDER).DIRECTORY_SEPARATOR.$model->image->name,['height'=>100]);
                         }
                     ],
                     ['class' => 'yii\grid\ActionColumn'],

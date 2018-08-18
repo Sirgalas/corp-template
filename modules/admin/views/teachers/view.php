@@ -2,44 +2,70 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
-
+use app\entities\Teachers;
 /* @var $this yii\web\View */
 /* @var $model app\entities\Teachers */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Teachers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Учителя', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="teachers-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->id], [
+        <?= Html::a('Редактирова', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
+                'confirm' => 'Вы уверены?',
                 'method' => 'post',
             ],
         ]) ?>
     </p>
+    <div class="box box-info">
+        <div class="box-body">
+            <?= DetailView::widget([
+                'model' => $model,
+                'attributes' => [
+                    'id',
+                    'name',
+                    'slug',
+                    [
+                        'attribute'=>'sex',
+                        'value'=> function($model){
+                            return $model->nameSex;
+                        },
+                    ],
+                    [
+                        'attribute'=>'description',
+                        'format'=>'raw'
+                    ],
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'slug',
-            'sex',
-            'description:ntext',
-            'create_at',
-            'update_at',
-            'status',
-            'image_id',
-            'author_id',
-            'last_redactor_id',
-        ],
-    ]) ?>
-
+                    'create_at:datetime',
+                    'update_at:datetime',
+                    [
+                        'attribute'=>'status',
+                        'value'=>function($model){
+                            return $model->nameStatus;
+                        },
+                    ],
+                    [
+                        'attribute'=>'image_id',
+                        'format'=>'raw',
+                        'value'=>function($model){
+                            return Html::img($model->image->getUrl(Teachers::FOLDER).DIRECTORY_SEPARATOR.$model->image->name,['height'=>200]);
+                        }
+                    ],
+                    [
+                        'attribute'=>'author_id',
+                        'value'=>function($model)
+                        {
+                            return $model->author->username;
+                        }
+                    ],
+                    'last_redactor_id',
+                ],
+            ]) ?>
+        </div>
+    </div>
 </div>

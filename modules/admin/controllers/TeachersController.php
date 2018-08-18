@@ -13,6 +13,7 @@ use yii\filters\VerbFilter;
 use app\modules\admin\forms\teachers\CreateForm;
 use app\modules\admin\services\manage\TeacherService;
 use app\modules\admin\forms\image\ImageCreateForm;
+use app\modules\admin\forms\teachers\EditForm;
 
 /**
  * TeachersController implements the CRUD actions for Teachers model.
@@ -83,17 +84,14 @@ class TeachersController extends Controller
         $imageForm=new ImageCreateForm();
         $imageRepository=new ImageRepository();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-
             try{
-                $this->service->create($form);
+                $teacher=$this->service->create($form);
                 return $this->redirect(['view', 'id' => $teacher->id]);
             }catch (\DomainException $e){
                 Yii::error($e);
                 Yii::$app->session->setFlash('error','Учитель не сохранен');
-
             }
         }
-
         return $this->render('create', [
             'model' => $form,
             'imageRepository'=>$imageRepository,
@@ -111,14 +109,27 @@ class TeachersController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $teacher = $this->findModel($id);
+        $form=new EditForm($teacher);
+        $imageForm=new ImageCreateForm();
+        $imageRepository=new ImageRepository();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()){
+            try{
+                $this->service->edit($teacher->id,$form);
+                return $this->redirect(['view', 'id' => $teacher->id]);
+            }catch (\DomainException $e){
+                Yii::error($e);
+                Yii::$app->session->setFlash('error','Изменения не применены');
+            }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
+            'imageRepository'=>$imageRepository,
+            'image_id'=>$teacher->image->id,
+            'imageForm'=>$imageForm,
+            'teacher'=>$teacher
         ]);
     }
 

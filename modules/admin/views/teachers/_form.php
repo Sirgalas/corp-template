@@ -35,10 +35,10 @@ use dosamigos\ckeditor\CKEditor;
 
             <?= $form->field($imageForm, 'file')->widget(FileInput::class,$imageRepository->imageSeting(Teachers::FOLDER,$image_id)); ?>
 
-            <?= $form->field($model,'image_id')->hiddenInput(['class'=>'image_id']) ?>
+            <?= $form->field($model,'image_id')->hiddenInput(['class'=>'image_id'])->label(false) ?>
 
             <div class="form-group">
-                <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+                <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
             </div>
 
             <?php ActiveForm::end(); ?>
