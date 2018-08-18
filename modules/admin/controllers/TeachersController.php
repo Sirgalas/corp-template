@@ -83,26 +83,22 @@ class TeachersController extends Controller
         $imageForm=new ImageCreateForm();
         $imageRepository=new ImageRepository();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            $transaction = Yii::$app->db->beginTransaction();
+
             try{
-                $image=null;
-                if($imageForm->load($form->image)&&$imageForm->validate()){
-                    $image=$this->imageService->upload($imageForm);
-                }
-                $teacher=$this->service->create($form,$image);
-                $transaction->commit();
+                $this->service->create($form);
                 return $this->redirect(['view', 'id' => $teacher->id]);
             }catch (\DomainException $e){
                 Yii::error($e);
                 Yii::$app->session->setFlash('error','Учитель не сохранен');
-                $transaction->rollback();
+
             }
         }
 
         return $this->render('create', [
             'model' => $form,
             'imageRepository'=>$imageRepository,
-            'image_id'=>null
+            'image_id'=>null,
+            'imageForm'=>$imageForm
         ]);
     }
 

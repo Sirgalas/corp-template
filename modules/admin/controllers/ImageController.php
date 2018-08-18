@@ -131,6 +131,7 @@ class ImageController extends Controller
                return['error'=>'Картинка не загрузилась'];
            }
         }
+        return ['error'=>'Не прошла валидация'];
     }
 
     /**

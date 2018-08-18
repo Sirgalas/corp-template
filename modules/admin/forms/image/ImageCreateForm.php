@@ -15,6 +15,8 @@ class ImageCreateForm extends Model
 {
     public $file;
     public $folder;
+    public $model;
+    public $file_id;
     /**
      * {@inheritdoc}
      */
@@ -22,7 +24,7 @@ class ImageCreateForm extends Model
     {
         return [
             ['file','file', 'extensions' => 'png, jpg'],
-            ['folder','string']
+            [['folder','model','file_id'],'string'],
         ];
     }
 

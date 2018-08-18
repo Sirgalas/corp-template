@@ -15,10 +15,10 @@ use dosamigos\ckeditor\CKEditor;
 <div class="box box-primary">
     <div class="box-body">
         <div class="teachers-form">
-            <?php $form = ActiveForm::begin(); ?>
+            <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-            
+
             <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'sex')->dropDownList(Teachers::$nameSex) ?>
@@ -33,8 +33,9 @@ use dosamigos\ckeditor\CKEditor;
 
             <?= $form->field($model, 'status')->dropDownList(Teachers::$nameStatus) ?>
 
-            <?= $form->field($model, 'file')->widget(FileInput::class,$imageRepository->imageSeting(Teachers::FOLDER,$image_id)); ?>
+            <?= $form->field($imageForm, 'file')->widget(FileInput::class,$imageRepository->imageSeting(Teachers::FOLDER,$image_id)); ?>
 
+            <?= $form->field($model,'image_id')->hiddenInput(['class'=>'image_id']) ?>
 
             <div class="form-group">
                 <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

@@ -20,7 +20,7 @@ class TeacherService
         $this->teacher=$teachers;
     }
 
-    public function create(CreateForm $form,$image):Teachers
+    public function create(CreateForm $form):Teachers
     {
         $teacher=$this->teacher::create($form);
 

@@ -22,16 +22,16 @@ class CreateForm  extends Model
     public $description;
     public $name;
     public $last_name;
-    public $file;
+    public $image_id;
 
     public function rules()
     {
 
         return [
-            [['sex', 'status'], 'integer'],
+            [['sex', 'status','image_id'], 'integer'],
             [['description'], 'string'],
             [['name', 'last_name'], 'string', 'max' => 255],
-            ['file','file', 'extensions' => 'png, jpg'],
+
 
         ];
     }

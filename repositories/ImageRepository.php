@@ -35,22 +35,25 @@ class ImageRepository
             return [
                 'options' => [
                     'accept' => 'image/*',
-                    'multiple'=>true
                 ],
                 'pluginOptions' => [
                     'uploadUrl' => Url::to(['/admin/image/upload']),
                     'uploadExtraData' => [
-                        'model' => Image::class,
-                        'folder' => Image::getPath($folder)
+                        'ImageCreateForm[model]' => Image::class,
+                        'ImageCreateForm[folder]' => Image::getPath($folder)
                     ],
-                    'deleteUrl' => '/admin/image/upload',
+                    'deleteUrl' => '/admin/image/delete',
                     'maxFileCount' => 10,
                     'initialPreview'=> $initialPreview,
                     'initialPreviewAsData'=>true,
                     'initialPreviewConfig' => $initialPreviewConfig,
                     'overwriteInitial'=>false,
-                    'maxFileSize'=>0,//10240,
-                ]
+                    'maxFileSize'=>0,
+                ],
+                'pluginEvents' => [
+                'fileuploaded' => 'function(event, data, previewId, index){
+                    $(".image_id").val(data.response.id)
+                }']
             ];
         }
 }
