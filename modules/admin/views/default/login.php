@@ -1,11 +1,15 @@
 <?php
-use backend\assets\AppAsset;
+use app\assets\AppAsset;
 use yii\helpers\Html;
+use app\modules\admin\assets\AdminAsset;
+
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 dmstr\web\AdminLteAsset::register($this);
+AppAsset::register($this);
+AdminAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -21,7 +25,7 @@ dmstr\web\AdminLteAsset::register($this);
 
 <?php $this->beginBody() ?>
 
-    <?= $content ?>
+    <?= $content; ?>
 
 <?php $this->endBody() ?>
 </body>

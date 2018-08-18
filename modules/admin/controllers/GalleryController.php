@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use app\entities\Program;
-use app\search\ProgramSearch;
+use app\entities\Gallery;
+use app\search\GallerySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ProgramController implements the CRUD actions for Program model.
+ * GalleryController implements the CRUD actions for Gallery model.
  */
-class ProgramController extends Controller
+class GalleryController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class ProgramController extends Controller
     }
 
     /**
-     * Lists all Program models.
+     * Lists all Gallery models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProgramSearch();
+        $searchModel = new GallerySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class ProgramController extends Controller
     }
 
     /**
-     * Displays a single Program model.
+     * Displays a single Gallery model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class ProgramController extends Controller
     }
 
     /**
-     * Creates a new Program model.
+     * Creates a new Gallery model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Program();
+        $model = new Gallery();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class ProgramController extends Controller
     }
 
     /**
-     * Updates an existing Program model.
+     * Updates an existing Gallery model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class ProgramController extends Controller
     }
 
     /**
-     * Deletes an existing Program model.
+     * Deletes an existing Gallery model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class ProgramController extends Controller
     }
 
     /**
-     * Finds the Program model based on its primary key value.
+     * Finds the Gallery model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Program the loaded model
+     * @return Gallery the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Program::findOne($id)) !== null) {
+        if (($model = Gallery::findOne($id)) !== null) {
             return $model;
         }
 

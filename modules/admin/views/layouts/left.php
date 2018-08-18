@@ -8,7 +8,7 @@
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p><?= Yii::$app->user->identity->username; ?></p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
@@ -31,12 +31,12 @@
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
                     ['label' => 'Menu Yii2', 'options' => ['class' => 'header']],
-                    ['label' => 'Пользователи', 'url' => ['user'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'Программы', 'url' => ['program'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'Учителя', 'url' => ['teacher'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'Информационные страницы', 'url' => ['info-page'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'Галерея', 'url' => ['gallery'], 'visible' => !Yii::$app->user->isGuest],
-                    ['label' => 'Дополнительные настройки', 'url' => ['config'], 'visible' => !Yii::$app->user->isGuest],
+                    ['label' => 'Пользователи', 'url' => ['/admin/user'], /*'visible' => !Yii::$app->user->isGuest*/],
+                    ['label' => 'Программы', 'url' => ['/admin/program'], /*'visible' => !Yii::$app->user->isGuest*/],
+                    ['label' => 'Учителя', 'url' => ['/admin/teachers'], /*'visible' => !Yii::$app->user->isGuest*/],
+                    ['label' => 'Информационные страницы', 'url' => ['/admin/info-page'], /*'visible' => !Yii::$app->user->isGuest*/],
+                    ['label' => 'Галерея', 'url' => ['/admin/gallery'], /*'visible' => !Yii::$app->user->isGuest*/],
+                    ['label' => 'Дополнительные настройки', 'url' => ['/admin/config'],/* 'visible' => !Yii::$app->user->isGuest*/],
                 ],
             ]
         ) ?>

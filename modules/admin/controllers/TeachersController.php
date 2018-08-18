@@ -1,19 +1,33 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
+use app\modules\admin\services\manage\ImageService;
 use Yii;
-use app\entities\Image;
-use app\search\ImageSearch;
+use app\entities\Teachers;
+use app\search\TeachersSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\admin\forms\teachers\CreateForm;
+use app\modules\admin\services\manage\TeacherService;
+use app\modules\admin\forms\image\ImageCreateForm;
 
 /**
- * ImageController implements the CRUD actions for Image model.
+ * TeachersController implements the CRUD actions for Teachers model.
  */
-class ImageController extends Controller
+class TeachersController extends Controller
 {
+
+    public $service;
+    public $imageService;
+
+    public function __construct(string $id, $module, TeacherService $service,ImageService $imageService, array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+        $this->service=$service;
+        $this->imageService=$imageService;
+    }
     /**
      * {@inheritdoc}
      */
@@ -30,12 +44,12 @@ class ImageController extends Controller
     }
 
     /**
-     * Lists all Image models.
+     * Lists all Teachers models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ImageSearch();
+        $searchModel = new TeachersSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +59,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Displays a single Image model.
+     * Displays a single Teachers model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,25 +72,38 @@ class ImageController extends Controller
     }
 
     /**
-     * Creates a new Image model.
+     * Creates a new Teachers model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Image();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $form=new CreateForm();
+        $imageForm=new ImageCreateForm();
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            $transaction = Yii::$app->db->beginTransaction();
+            try{
+                $image=null;
+                if($imageForm->load($form->image)&&$imageForm->validate()){
+                    $image=$this->imageService->upload($imageForm);
+                }
+                $teacher=$this->service->create($form,$image);
+                $transaction->commit();
+                return $this->redirect(['view', 'id' => $teacher->id]);
+            }catch (\DomainException $e){
+                Yii::error($e);
+                Yii::$app->session->setFlash('error','Учитель не сохранен');
+                $transaction->rollback();
+            }
         }
 
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
     /**
-     * Updates an existing Image model.
+     * Updates an existing Teachers model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +123,7 @@ class ImageController extends Controller
     }
 
     /**
-     * Deletes an existing Image model.
+     * Deletes an existing Teachers model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +137,15 @@ class ImageController extends Controller
     }
 
     /**
-     * Finds the Image model based on its primary key value.
+     * Finds the Teachers model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Image the loaded model
+     * @return Teachers the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Image::findOne($id)) !== null) {
+        if (($model = Teachers::findOne($id)) !== null) {
             return $model;
         }
 

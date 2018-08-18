@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use app\entities\InfoPage;
-use app\search\InfoPageSearch;
+use app\entities\Image;
+use app\search\ImageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * InfoPageController implements the CRUD actions for InfoPage model.
+ * ImageController implements the CRUD actions for Image model.
  */
-class InfoPageController extends Controller
+class ImageController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Lists all InfoPage models.
+     * Lists all Image models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new InfoPageSearch();
+        $searchModel = new ImageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Displays a single InfoPage model.
+     * Displays a single Image model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Creates a new InfoPage model.
+     * Creates a new Image model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new InfoPage();
+        $model = new Image();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Updates an existing InfoPage model.
+     * Updates an existing Image model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Deletes an existing InfoPage model.
+     * Deletes an existing Image model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class InfoPageController extends Controller
     }
 
     /**
-     * Finds the InfoPage model based on its primary key value.
+     * Finds the Image model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return InfoPage the loaded model
+     * @return Image the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = InfoPage::findOne($id)) !== null) {
+        if (($model = Image::findOne($id)) !== null) {
             return $model;
         }
 

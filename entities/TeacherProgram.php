@@ -32,8 +32,8 @@ class TeacherProgram extends \yii\db\ActiveRecord
             [['teachers_id', 'programs_id'], 'required'],
             [['teachers_id', 'programs_id'], 'integer'],
             [['teachers_id', 'programs_id'], 'unique', 'targetAttribute' => ['teachers_id', 'programs_id']],
-            [['programs_id'], 'exist', 'skipOnError' => true, 'targetClass' => Program::className(), 'targetAttribute' => ['programs_id' => 'id']],
-            [['teachers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Teachers::className(), 'targetAttribute' => ['teachers_id' => 'id']],
+            [['programs_id'], 'exist', 'skipOnError' => true, 'targetClass' => Program::class, 'targetAttribute' => ['programs_id' => 'id']],
+            [['teachers_id'], 'exist', 'skipOnError' => true, 'targetClass' => Teachers::class, 'targetAttribute' => ['teachers_id' => 'id']],
         ];
     }
 
@@ -53,7 +53,7 @@ class TeacherProgram extends \yii\db\ActiveRecord
      */
     public function getPrograms()
     {
-        return $this->hasOne(Program::className(), ['id' => 'programs_id']);
+        return $this->hasOne(Program::class, ['id' => 'programs_id']);
     }
 
     /**
@@ -61,6 +61,6 @@ class TeacherProgram extends \yii\db\ActiveRecord
      */
     public function getTeachers()
     {
-        return $this->hasOne(Teachers::className(), ['id' => 'teachers_id']);
+        return $this->hasOne(Teachers::class, ['id' => 'teachers_id']);
     }
 }

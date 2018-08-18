@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use app\entities\TeacherProgram;
-use app\search\TeacherProgramSearch;
+use app\entities\AddFields;
+use app\search\AddFieldsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TeacherProgramController implements the CRUD actions for TeacherProgram model.
+ * AddFieldsController implements the CRUD actions for AddFields model.
  */
-class TeacherProgramController extends Controller
+class AddFieldsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -21,7 +21,7 @@ class TeacherProgramController extends Controller
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -30,12 +30,12 @@ class TeacherProgramController extends Controller
     }
 
     /**
-     * Lists all TeacherProgram models.
+     * Lists all AddFields models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TeacherProgramSearch();
+        $searchModel = new AddFieldsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,30 +45,29 @@ class TeacherProgramController extends Controller
     }
 
     /**
-     * Displays a single TeacherProgram model.
-     * @param integer $teachers_id
-     * @param integer $programs_id
+     * Displays a single AddFields model.
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($teachers_id, $programs_id)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($teachers_id, $programs_id),
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new TeacherProgram model.
+     * Creates a new AddFields model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new TeacherProgram();
+        $model = new AddFields();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'teachers_id' => $model->teachers_id, 'programs_id' => $model->programs_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
@@ -77,19 +76,18 @@ class TeacherProgramController extends Controller
     }
 
     /**
-     * Updates an existing TeacherProgram model.
+     * Updates an existing AddFields model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $teachers_id
-     * @param integer $programs_id
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($teachers_id, $programs_id)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($teachers_id, $programs_id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'teachers_id' => $model->teachers_id, 'programs_id' => $model->programs_id]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
@@ -98,31 +96,29 @@ class TeacherProgramController extends Controller
     }
 
     /**
-     * Deletes an existing TeacherProgram model.
+     * Deletes an existing AddFields model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $teachers_id
-     * @param integer $programs_id
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($teachers_id, $programs_id)
+    public function actionDelete($id)
     {
-        $this->findModel($teachers_id, $programs_id)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the TeacherProgram model based on its primary key value.
+     * Finds the AddFields model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $teachers_id
-     * @param integer $programs_id
-     * @return TeacherProgram the loaded model
+     * @param integer $id
+     * @return AddFields the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($teachers_id, $programs_id)
+    protected function findModel($id)
     {
-        if (($model = TeacherProgram::findOne(['teachers_id' => $teachers_id, 'programs_id' => $programs_id])) !== null) {
+        if (($model = AddFields::findOne($id)) !== null) {
             return $model;
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
 use app\entities\User;
@@ -8,12 +8,22 @@ use app\search\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\modules\admin\forms\user\CreateForm;
+use app\modules\admin\forms\user\EditForm;
+use app\modules\admin\services\manage\UserService;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
+    private $service;
+    public function __construct(string $id, $module,UserService $service,  array $config = [])
+    {
+        $this->service= $service;
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -64,14 +74,19 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        $form = new CreateForm();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+            try{
+                $user=$this->service->create($form);
+                return $this->redirect(['view', 'id' => $user->id]);
+            }catch (\DomainException $e){
+                Yii::error($e->getMessage());
+                Yii::$app->session->setFlash('error','Пользователь не сохранен');
+            }
         }
-
         return $this->render('create', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 
@@ -84,14 +99,21 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $user = $this->findModel($id);
+        $form = new EditForm($user);
+        if ($form->load(Yii::$app->request->post()) && $form->validate())
+        {
+            try
+            {
+                $this->service->edit($form,$user);
+                return $this->redirect(['view', 'id' => $user->id]);
+            }catch (\DomainException $e){
+                Yii::error($e->getMessage());
+                Yii::$app->session->setFlash('error','Редактирование не удалось');
+            }
         }
-
         return $this->render('update', [
-            'model' => $model,
+            'model' => $form,
         ]);
     }
 

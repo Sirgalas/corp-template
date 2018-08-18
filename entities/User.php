@@ -1,6 +1,7 @@
 <?php
 namespace app\entities;
 
+use app\modules\admin\forms\user\EditForm;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -23,10 +24,39 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
-    const STATUS_MANAGER = 0;
+    const STATUS_NOT_ACTIVE=0;
+    const STATUS_MANAGER = 5;
     const STATUS_ADMIN= 10;
 
+     public static function create(string $username, string $password,string $email,string $status=null){
+         $user=new static();
+         $user->username=$username;
+         $user->email=$email;
+         $user->setPassword(!empty($password) ? $password : Yii::$app->security->generateRandomString());
+         if(empty($status))
+             $user->status=self::STATUS_MANAGER;
+         else
+             $user->status=$status;
+         $user->created_at = time();
+         $user->auth_key = Yii::$app->security->generateRandomString();
+         return $user;
+     }
 
+     public function edit(EditForm $form)
+     {
+         $this->username=$form->username;
+         $this->email=$form->email;
+     }
+
+     public static $statusName=[
+         self::STATUS_NOT_ACTIVE=>'Пользователь не активен',
+         self::STATUS_MANAGER=>'Менеджер',
+         self::STATUS_ADMIN=>'Admin'
+     ];
+
+     public function getStatusName(){
+         return self::$statusName[$this->status];
+     }
     /**
      * {@inheritdoc}
      */
@@ -56,12 +86,23 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    public function attributeLabels()
+    {
+        return[
+            'username'=>'Логин',
+            'email'=>'Email',
+            'password'=>'Пароль',
+            'status'=>'Роль',
+            'created_at'=>'Дата регистрации'
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::find()->where(['id' => $id])->andFilterWhere(['>','status',self::STATUS_NOT_ACTIVE])->one();
     }
 
     /**
@@ -186,4 +227,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+
 }

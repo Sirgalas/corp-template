@@ -1,18 +1,18 @@
 <?php
 
-namespace app\controllers;
+namespace app\modules\admin\controllers;
 
 use Yii;
-use app\entities\Teachers;
-use app\search\TeachersSearch;
+use app\entities\InfoPage;
+use app\search\InfoPageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TeachersController implements the CRUD actions for Teachers model.
+ * InfoPageController implements the CRUD actions for InfoPage model.
  */
-class TeachersController extends Controller
+class InfoPageController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,12 +30,12 @@ class TeachersController extends Controller
     }
 
     /**
-     * Lists all Teachers models.
+     * Lists all InfoPage models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new TeachersSearch();
+        $searchModel = new InfoPageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +45,7 @@ class TeachersController extends Controller
     }
 
     /**
-     * Displays a single Teachers model.
+     * Displays a single InfoPage model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,13 +58,13 @@ class TeachersController extends Controller
     }
 
     /**
-     * Creates a new Teachers model.
+     * Creates a new InfoPage model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Teachers();
+        $model = new InfoPage();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -76,7 +76,7 @@ class TeachersController extends Controller
     }
 
     /**
-     * Updates an existing Teachers model.
+     * Updates an existing InfoPage model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -96,7 +96,7 @@ class TeachersController extends Controller
     }
 
     /**
-     * Deletes an existing Teachers model.
+     * Deletes an existing InfoPage model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,15 +110,15 @@ class TeachersController extends Controller
     }
 
     /**
-     * Finds the Teachers model based on its primary key value.
+     * Finds the InfoPage model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Teachers the loaded model
+     * @return InfoPage the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Teachers::findOne($id)) !== null) {
+        if (($model = InfoPage::findOne($id)) !== null) {
             return $model;
         }
 
